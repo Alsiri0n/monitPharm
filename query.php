@@ -29,7 +29,7 @@ require_once 'postgresql.php';
 
   function getData($curDate) {
     $queryDate = DateTime::createFromFormat('Y-m-d', $curDate)->format('Y-m');
-    $tempArray = [];
+    $tempArray = array();
     $i = 0;
     //Получаем ид Аптеки, продажи карт.опт, продажи розн.опт, остаток.опт
     $query = "SELECT \"aptID\", \"cardSellingWholesale\", \"cashSellingWholesale\", \"invoiceBalanceWholesale\", \"reportEndDate\"
@@ -91,11 +91,10 @@ require_once 'postgresql.php';
     }
     pg_free_result($result);
     return $tempArray;
-
   }
 
   function getDataCur($aptId, $curMonth) {
-    $tempArray = [];
+    $tempArray = array();
     $queryDate = date("t/m/Y", strtotime($curMonth));
     $i = 0;
 
