@@ -1,0 +1,7 @@
+connection.php
+*.sublime-project
+*.sublime-workspace
+test.html
+query.back.php
+/js/d3.min.js
+/js/mainTest.js

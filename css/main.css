@@ -1,0 +1,63 @@
+@font-face {
+    font-family: 'PT Sans';
+    src: url('PT_Sans-Web-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    color: black;
+    font-family: 'PT Sans';
+}
+table, th,tr,td {
+    /*border: 1px solid black;*/
+    padding: 15px 20px;
+    text-align: center;
+    border-collapse: collapse;
+    margin: 30px auto;
+
+}
+caption {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+tr {
+    transition: .2s ease-out;
+}
+.green {
+    background: #00e676;
+}
+.red {
+    background: #d50000;
+}
+thead, tfoot {
+    background-color: #eee;
+}
+tbody>tr:hover {
+    background: #ab47bc;
+}
+td, th {
+    border-left: 1px solid black;
+}
+
+th {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+td:last-child, th:last-child {
+    border-right: 1px solid black;
+}
+
+tfoot, tr:last-child {
+    border-bottom: 1px solid black;
+}
+tfoot {
+    font-weight: bold;
+}
