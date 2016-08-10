@@ -1,6 +1,5 @@
 <?php
-
-require_once 'connection.php';
+require_once 'postgresql.php';
 //Разбираем входящий пост запрос
   $q = $_POST["q"];
   $d1 = $_POST["d1"];
@@ -9,28 +8,24 @@ require_once 'connection.php';
       $d2 = $_POST["d2"];
   }
 
-  $connectionstring = "host=".$host." dbname=".$database." user=".$user." password=".$password;
+ 
   $q = str_replace('\"', '\\"', $q);
   $d1 = str_replace('\"', '\\"', $d1);
   $d2 = str_replace('\"', '\\"', $d2);
-
-
-
-  $dbconn = pg_connect($connectionstring)
-      or die('Could not connect: ' . pg_last_error());
   
-  $myArray = array();
-
+  $outData = array();
+  $db = db_connect();
   switch ($q) {
     case "getData":
-      $myArray = getData($d1);
-      // $myArray = DateTime::createFromFormat('Y-m-d', $d1)->format('Y-m-d');
+      $outData = getData($d1);
       break;
     case "getDataCur":
-      $myArray = getDataCur($d1, $d2);
+      $outData = getDataCur($d1, $d2);
       break;
   }
-  echo json_encode($myArray);
+  db_close($db);
+
+  echo json_encode($outData);
 
   function getData($curDate) {
     $queryDate = DateTime::createFromFormat('Y-m-d', $curDate)->format('Y-m');
@@ -76,7 +71,7 @@ require_once 'connection.php';
       $SupplDataResult = pg_query($query) or die('Query failed: ' . pg_last_error());
       $supLine = pg_fetch_array($SupplDataResult, null, PGSQL_NUM);
 
-        //Катрен
+      //Катрен
       $tempArray[$i]["Katren"] = ($supLine) ? $supLine[0] : 0.0;
       pg_free_result($SupplDataResult);
 
@@ -97,24 +92,15 @@ require_once 'connection.php';
     pg_free_result($result);
     return $tempArray;
 
-    // return date('Y/m/d', $curDate);
   }
 
   function getDataCur($aptId, $curMonth) {
     $tempArray = [];
-    // $queryDate = DateTime::createFromFormat('Y-m-d', $curMonth)->format('d/m/Y');
     $queryDate = date("t/m/Y", strtotime($curMonth));
-    // error_log("curMonth: ". $curMonth);
-    // error_log("queryDate: ". $queryDate);
     $i = 0;
-    // $tempArray[0] = $aptId;
-    // $tempArray[1] = $queryDate;
+
     $query = "SELECT \"reportEndDate\", \"cardSellingWholesale\", \"cashSellingWholesale\", \"invoiceBalanceWholesale\" FROM \"AptData\" WHERE \"aptID\"= " . $aptId . " AND \"reportEndDate\" <= '" . $queryDate . "' AND \"reportStartDate\" = '" . "01/" . substr($queryDate, 3) . "' ORDER BY \"reportEndDate\";";
 
-    // $query = "SELECT \"reportEndDate\", \"cardSellingWholesale\", \"cashSellingWholesale\", \"invoiceBalanceWholesale\" FROM \"AptData\" WHERE "
-      // <= '" . $queryDate . "' AND \"reportStartDate\" = '" . substr($queryDate, 0, 2). "/01/" . substr($queryDate, 6) . "' ORDER BY \"reportEndDate\";";
-     // . $queryDate . "' AND \"reportStartDate\" = '" . "01/" . substr($queryDate, 3) ."' ORDER BY \"
-    // error_log("Error message: ". $query);
     $result = pg_query($query) or die('Query failed: ' . pg_last_error());
     while ($line = pg_fetch_array($result, null, PGSQL_NUM)) {
       $tempArray[$i]["Date"] = $line[0];
