@@ -9,14 +9,14 @@ require_once 'connection.php';
       $d2 = $_POST["d2"];
   }
 
-
+  $connectionstring = "host=".$host." dbname=".$database." user=".$user." password=".$password;
   $q = str_replace('\"', '\\"', $q);
   $d1 = str_replace('\"', '\\"', $d1);
   $d2 = str_replace('\"', '\\"', $d2);
 
 
 
-  $dbconn = pg_connect("host=10.2.0.5 dbname=ap25 user=postgres password=flatron")
+  $dbconn = pg_connect($connectionstring)
       or die('Could not connect: ' . pg_last_error());
   
   $myArray = array();
