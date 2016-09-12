@@ -48,10 +48,10 @@
           zak_vir = 0;
           $('test').append(value.Date);
           if (totalZak > parseFloat(value.Viruchka)) {
-            color = '<tr class=\"red\">';
+            color = '<tr class=\"red clickable-row\" href=\"'+ value.AptId +'\">';
           }
           else {
-            color = '<tr class=\"green\">';
+            color = '<tr class=\"green clickable-row\" href=\"'+ value.AptId +'\">';
           }
           sumMedilon += parseFloat(value.Medilon);
           sumKatren += parseFloat(value.Katren);
@@ -65,7 +65,8 @@
           }
 
           $('#allData>tbody').append(color + 
-            '<td>' + '<a id ="apt-info-'+ key +'" href="'+ value.AptId +'">' + value.AptName + '</a>' + '</td>' +
+            // '<td>' + '<a id ="apt-info-'+ key +'" href="'+ value.AptId +'">' + value.AptName + '</a>' + '</td>' +
+            '<td>' + value.AptName + '</td>' +
             '<td>' + parseFloat(value.Medilon).format(0, 3, ' ', '.') + '</td>'+
             '<td>' + parseFloat(value.Katren).format(0, 3, ' ', '.') + '</td>'+
             '<td>' + parseFloat(value.Protek).format(0, 3, ' ', '.') + '</td>'+
@@ -89,13 +90,14 @@
       }
     });
   });
-  $(document).on('click','#allData a', function(e) {
+  // $(document).on('click','#allData a, .clickable-row', function(e) {
+  $(document).on('click','.clickable-row', function(e) {
     // var dataDate = curDay.setDate(curDay.getDate());
     // if (curDay.getMonth() + 1 != parseInt($('#month').val().slice(5))) {
     //   dataDate = new Date(curDay.getFullYear(), curDay.getMonth(), 0).getTime();
     // }
     dataDate = $('#month').val() + '-01';
-    console.log(dataDate);
+    // console.log(dataDate);
     // var teamId = e.toElement.id.replace($teamInfoPrefix, '');
     var aptId = $(this).attr('href');
 
@@ -116,8 +118,8 @@
         d2: dataDate
       },
       success: function(data) {
-        console.log(data);
-        $('#curAptData caption').append('Сводная по аптеке<br>'+ e.target.innerText);
+        // console.log(">>>>" + e.target.parentElement.firstChild.innerText);
+        $('#curAptData caption').append('Сводная по аптеке<br>'+ e.target.parentElement.firstChild.innerText);
         $.each(data, function(key, value) {
           DateArr.push(value.Date);
           ViruchkaArr.push(value.Viruchka);
@@ -135,6 +137,7 @@
     });
     
   });
+
 
   $(document).ready(function(){
 
