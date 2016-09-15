@@ -1,7 +1,7 @@
 <?php
 
 // Каталог, в который мы будем принимать файл:
-$uploaddir = '/srv/samba/work/WWW/ap25/uploads/';
+// $uploaddir = '/srv/samba/work/WWW/ap25/uploads/';
 // $uploaddir = '/srv/samba/work/WWW/ap25/uploads/';
 // $uploadfile = $uploaddir.basename($_FILES['uploadfile']['name']);
 $uploadfile = $_FILES['uploadfile']['tmp_name'];
