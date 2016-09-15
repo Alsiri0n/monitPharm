@@ -59,7 +59,8 @@ require_once 'postgresql.php';
       $tempArray[$i]["AptName"] = $AptName;
       $tempArray[$i]["AptId"] = $aptId;
       //Получаем продажи
-      $query = "SELECT \"wholesale\" FROM \"SupplData\" WHERE \"aptId\" = '" . $aptId . "' AND \"reportDate\" = '" . $queryDate ."' AND \"supplName\" = 'Медилон-Фармимэкс';";
+      $query = "SELECT \"wholesale\" FROM \"SupplData\" WHERE \"aptId\" = '" . $aptId . "' AND \"reportDate\" = '" 
+      . $queryDate ."' AND \"supplName\" = 'Медилон-Фармимэкс';";
       $SupplDataResult = pg_query($query) or die('Query failed: ' . pg_last_error());
       $supLine = pg_fetch_array($SupplDataResult, null, PGSQL_NUM);
 
@@ -67,7 +68,8 @@ require_once 'postgresql.php';
       $tempArray[$i]["Medilon"] = ($supLine) ? $supLine[0] : 0.0;
       pg_free_result($SupplDataResult);
 
-      $query = "SELECT \"wholesale\" FROM \"SupplData\" WHERE \"aptId\" = '" . $aptId . "' AND \"reportDate\" = '" . $queryDate ."' AND \"supplName\" = 'Катрен';";
+      $query = "SELECT \"wholesale\" FROM \"SupplData\" WHERE \"aptId\" = '" . $aptId . "' AND \"reportDate\" = '" 
+      . $queryDate ."' AND \"supplName\" = 'Катрен';";
       $SupplDataResult = pg_query($query) or die('Query failed: ' . pg_last_error());
       $supLine = pg_fetch_array($SupplDataResult, null, PGSQL_NUM);
 
@@ -75,7 +77,8 @@ require_once 'postgresql.php';
       $tempArray[$i]["Katren"] = ($supLine) ? $supLine[0] : 0.0;
       pg_free_result($SupplDataResult);
 
-      $query = "SELECT \"wholesale\" FROM \"SupplData\" WHERE \"aptId\" = '" . $aptId . "' AND \"reportDate\" = '" . $queryDate ."' AND \"supplName\" = 'Протек';";
+      $query = "SELECT \"wholesale\" FROM \"SupplData\" WHERE \"aptId\" = '" . $aptId . "' AND \"reportDate\" = '" 
+      . $queryDate ."' AND \"supplName\" = 'Протек';";
       $SupplDataResult = pg_query($query) or die('Query failed: ' . pg_last_error());
       $supLine = pg_fetch_array($SupplDataResult, null, PGSQL_NUM);
 
@@ -98,13 +101,17 @@ require_once 'postgresql.php';
     $queryDate = date("t/m/Y", strtotime($curMonth));
     $i = 0;
 
-    $query = "SELECT \"reportEndDate\", \"cardSellingWholesale\", \"cashSellingWholesale\", \"invoiceBalanceWholesale\" FROM \"AptData\" WHERE \"aptID\"= " . $aptId . " AND \"reportEndDate\" <= '" . $queryDate . "' AND \"reportStartDate\" = '" . "01/" . substr($queryDate, 3) . "' ORDER BY \"reportEndDate\";";
+    $query = "SELECT \"reportEndDate\", \"cardSellingWholesale\", \"cashSellingWholesale\", 
+    \"invoiceBalanceWholesale\", \"cardSellingRetail\", \"cashSellingRetail\" FROM \"AptData\" WHERE \"aptID\"= " 
+    . $aptId . " AND \"reportEndDate\" <= '" . $queryDate . "' AND \"reportStartDate\" = '" . "01/" 
+    . substr($queryDate, 3) . "' ORDER BY \"reportEndDate\";";
 
     $result = pg_query($query) or die('Query failed: ' . pg_last_error());
     while ($line = pg_fetch_array($result, null, PGSQL_NUM)) {
       $tempArray[$i]["Date"] = $line[0];
       $tempArray[$i]["Ostatok"] = floatval($line[3]);
       $tempArray[$i]["Viruchka"] = floatval($line[1]) + floatval($line[2]);
+      $tempArray[$i]["ViruchkaRet"] = floatval($line[4]) + floatval($line[5]);
       $i++;
     }
     pg_free_result($result);
