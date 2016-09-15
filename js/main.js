@@ -120,14 +120,18 @@
       success: function(data) {
         // console.log(">>>>" + e.target.parentElement.firstChild.innerText);
         $('#curAptData caption').append('Сводная по аптеке<br>'+ e.target.parentElement.firstChild.innerText);
+        var prevVir = 0;
         $.each(data, function(key, value) {
+          prevVir = value.Viruchka - prevVir;
           DateArr.push(value.Date);
           ViruchkaArr.push(value.Viruchka);
           OstatokArr.push(value.Ostatok);
           $('#curAptData>tbody').append('<tr>' +
             '<td>' + value.Date + '</td>' +
             '<td>' + value.Viruchka.format(0, 3, ' ', '.') + '</td>' +
+            '<td>' + prevVir.format(0, 3, ' ', '.') + '</td>' +
             '<td>' + parseFloat(value.Ostatok).format(0, 3, ' ', '.') + '</td></tr>').hide().show('fast');
+          prevVir = value.Viruchka;
         });
         // $('.chartParent').innerHTML = '&nbsp;';
         // $('.chartParent').append('<canvas id="myChart" max-width="400" max-height="400"><canvas>');
@@ -212,4 +216,3 @@ function createChart(DateArr, ViruchkaArr, OstatokArr) {
   });
   myChart.destroy();
 };
-
