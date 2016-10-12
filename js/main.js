@@ -17,6 +17,7 @@
     var sumTotalZak = 0.0;
     var sumViruchka = 0.0;
     var sumOstatok = 0.0;
+    var sumOstatokRozn = 0.0;
     var zak_vir = 0.0;
     event.preventDefault();
     $.ajax({
@@ -59,6 +60,7 @@
           sumTotalZak += totalZak;
           sumViruchka += parseFloat(value.Viruchka);
           sumOstatok += parseFloat(value.Ostatok);
+          sumOstatokRozn += parseFloat(value.OstatokRozn);
 
           if (value.Viruchka != 0 ) {
             zak_vir = parseFloat(100 * ((totalZak/value.Viruchka)-1));
@@ -73,7 +75,8 @@
             '<td>' + totalZak.format(0, 3, ' ', '.') + '</td>' +
             '<td>' + value.Viruchka.format(0, 3, ' ', '.') + '</td>' +
             '<td>' + zak_vir.format(2, 3, ' ', '.') + '</td>' +
-            '<td>' + parseFloat(value.Ostatok).format(0, 3, ' ', '.') + '</td></tr>').hide().show('fast');
+            '<td>' + parseFloat(value.Ostatok).format(0, 3, ' ', '.') + '</td>' + 
+            '<td>' + parseFloat(value.OstatokRozn).format(0, 3, ' ', '.') + '</td></tr>').hide().show('fast');
         });
         $('#allData>tfoot').append(
           '<tr>'+
@@ -85,6 +88,7 @@
           '<td>' + sumViruchka.format(0, 3, ' ', '.') + '</td>' +
           '<td>' + parseFloat(100 * ((sumTotalZak/sumViruchka)-1)).format(2, 3, ' ', '.') + '</td>' +
           '<td>' + sumOstatok.format(0, 3, ' ', '.') + '</td>' +
+          '<td>' + sumOstatokRozn.format(0, 3, ' ', '.') + '</td>' +
           '</tr>'
           ).hide().show('fast');
       }
@@ -92,10 +96,6 @@
   });
   // $(document).on('click','#allData a, .clickable-row', function(e) {
   $(document).on('click','.clickable-row', function(e) {
-    // var dataDate = curDay.setDate(curDay.getDate());
-    // if (curDay.getMonth() + 1 != parseInt($('#month').val().slice(5))) {
-    //   dataDate = new Date(curDay.getFullYear(), curDay.getMonth(), 0).getTime();
-    // }
     dataDate = $('#month').val() + '-01';
     // console.log(dataDate);
     // var teamId = e.toElement.id.replace($teamInfoPrefix, '');
@@ -107,7 +107,7 @@
     var ViruchkaArr = [];
     var OstatokArr = []
     e.preventDefault();
-    // console.log(e.toElement.innerHTML)
+
     $.ajax({
       url: "query.php",
       type: "POST",
@@ -118,15 +118,19 @@
         d2: dataDate
       },
       success: function(data) {
-        // console.log(">>>>" + e.target.parentElement.firstChild.innerText);
         $('#curAptData caption').append('Сводная по аптеке<br>'+ e.target.parentElement.firstChild.innerText);
         var prevVir = 0;
         $.each(data, function(key, value) {
+          var color = '<tr>'
+          var timestampDate = new Date(Date.parse(value.Date)).getDay();
+          if (timestampDate == 6 || timestampDate == 0) {
+            color = '<tr class=\"holiday"\>';
+          }
           prevVir = value.ViruchkaRet - prevVir;
           DateArr.push(value.Date);
           ViruchkaArr.push(value.Viruchka);
           OstatokArr.push(value.Ostatok);
-          $('#curAptData>tbody').append('<tr>' +
+          $('#curAptData>tbody').append(color +
             '<td>' + value.Date + '</td>' +
             '<td>' + value.Viruchka.format(0, 3, ' ', '.') + '</td>' +
             '<td>' + value.ViruchkaRet.format(0, 3, ' ', '.') + '</td>' +
@@ -140,12 +144,9 @@
         // createChartD3();
       }
     });
-    
   });
 
-
   $(document).ready(function(){
-
   });
 
 } (jQuery));

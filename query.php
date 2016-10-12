@@ -31,8 +31,8 @@ require_once 'postgresql.php';
     $queryDate = DateTime::createFromFormat('Y-m-d', $curDate)->format('Y-m');
     $tempArray = array();
     $i = 0;
-    //Получаем ид Аптеки, продажи карт.опт, продажи розн.опт, остаток.опт
-    $query = "SELECT \"aptID\", \"cardSellingWholesale\", \"cashSellingWholesale\", \"invoiceBalanceWholesale\", \"reportEndDate\"
+    //Получаем ид Аптеки, продажи карт.опт, продажи розн.опт, остаток.опт, остаток.розн
+    $query = "SELECT \"aptID\", \"cardSellingWholesale\", \"cashSellingWholesale\", \"invoiceBalanceWholesale\", \"reportEndDate\", \"invoiceBalanceRetail\"
     FROM \"AptData\" 
     WHERE \"reportEndDate\" IN (
       SELECT MAX(\"reportEndDate\") FROM \"AptData\" WHERE
@@ -53,7 +53,7 @@ require_once 'postgresql.php';
       pg_free_result($AptNameresult);
 
       //Дата
-      $tempArray[$i]["Test"] = $line[4];
+      // $tempArray[$i]["Test"] = $line[4];
       $tempArray[$i]["Date"] = $queryDate;
       //Название Аптеки
       $tempArray[$i]["AptName"] = $AptName;
@@ -90,6 +90,7 @@ require_once 'postgresql.php';
       $tempArray[$i]["Viruchka"] = floatval($line[1]) + floatval($line[2]);
       //Остаток
       $tempArray[$i]["Ostatok"] = $line[3];
+      $tempArray[$i]["OstatokRozn"] = $line[5];
       $i++;
     }
     pg_free_result($result);

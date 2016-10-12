@@ -1,63 +1,77 @@
 @font-face {
-    font-family: 'PT Sans';
-    src: url('PT_Sans-Web-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'PT Sans';
+  src: url('PT_Sans-Web-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  /*font-feature-settings: "lnum" 1, "tnum" 1;*/
 }
 
 @font-face {
-    font-family: 'Roboto';
-    src: url('Roboto-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'WorkSans-Regular';
+  src: url('WorkSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 * {
-    color: black;
-    font-family: 'PT Sans';
+  color: black;
+  font-family: 'PT Sans';
 }
 table, th,tr,td {
-    /*border: 1px solid black;*/
-    padding: 15px 20px;
-    text-align: center;
-    border-collapse: collapse;
-    margin: 30px auto;
+  padding: 15px 20px;
+  text-align: center;
+  border-collapse: collapse;
+  margin: 30px auto;
 
 }
 caption {
-    font-size: 1.8em;
-    font-weight: bold;
+  font-size: 1.8em;
+  font-weight: bold;
 }
 tr {
-    transition: .2s ease-out;
+  transition: .2s ease-out;
 }
 .green {
-    background: #00e676;
+  background: #00e676;
 }
 .red {
-    background: #d50000;
+  background: #d50000;
+}
+.holiday {
+  background: #f8adce;
 }
 thead, tfoot {
-    background-color: #eee;
+  background-color: #eee;
 }
 tbody>tr:hover {
-    background: #ab47bc;
+  background: #ab47bc;
+}
+tbody td:not(:first-child), tfoot td:not(:first-child) {
+  font-family: 'WorkSans-Regular';
+  text-align: right;
 }
 td, th {
-    border-left: 1px solid black;
+  border-left: 1px solid black;
 }
 
 th {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 td:last-child, th:last-child {
-    border-right: 1px solid black;
+   border-right: 1px solid black;
 }
 
 tfoot, tr:last-child {
-    border-bottom: 1px solid black;
+  border-bottom: 1px solid black;
 }
 tfoot {
-    font-weight: bold;
+  font-weight: bold;
 }
